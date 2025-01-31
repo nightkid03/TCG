@@ -76,6 +76,19 @@ myallabun (HQMAG abundance table, n sample x m HQMAGs. Result from Ditasic)
 
 myallgroup_color (color codes for each group)
 
+myallhqreads (number of high quality reads of each sample)
+
+
+```
+myallabun_rel=myallabun
+for(i in 1:nrow(myallabun_rel))
+{
+  myallabun_rel[i,]= myallabun_rel[i,]/myallhqreadsQin2014[i]
+}
+myallabun_rel[myallabun_rel <0.00001]=0
+myallabun_rel_36m=round(myallabun_rel*36000000)
+```
+
 ### 8.1 beta diversity, PCoA
 ```
 mydata=myalldata
@@ -137,7 +150,7 @@ summary(apply(myallabun_rel[,selectHQMAG],1,sum))
 grouplist=as.character(unique(myalldata$group))
 for (i in 1:length(grouplist))
 {
-  tmpabun=myallabun_44m[which(myalldata$group==grouplist[i]),selectHQMAG]
+  tmpabun=myallabun_rel_36m[which(myalldata$group==grouplist[i]),selectHQMAG]
   print(dim(tmpabun))
   tmpout=paste(grouplist[i],".txt",sep = "")
   print(range(tmpabun))
