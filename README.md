@@ -86,7 +86,6 @@ for(i in 1:nrow(myallabun_rel))
   myallabun_rel[i,]= myallabun_rel[i,]/myallhqreads[i]
 }
 myallabun_rel[myallabun_rel <0.00001]=0
-myallabun_rel_36m=round(myallabun_rel*36000000)
 ```
 
 ### 8.1 beta diversity, PCoA
@@ -139,23 +138,13 @@ pairwise.adonis <-function(x,factors,p.adjust.m)
 pairwise.adonis(x = mydist,factors = mydata$group,p.adjust.m = "BH")
 ```
 
-### 8.3 generate input files for Fastspar
+### 8.3 Selece HQMAGs for Fastspar
 ```
-b=aggregate(myallabun,by=list(myalldata$group),FUN = function(x){length(which(x>0))/length(x)})
+b=aggregate(myallabun_rel,by=list(myalldata$group),FUN = function(x){length(which(x>0))/length(x)})
 rownames(b)=b$Group.1
 b$Group.1=NULL
 apply(b,1,FUN = function(x){length(which(x>0.75))})
 selectHQMAG=colnames(b)[which(apply(b,2,min)>0.75)]  #HQMAGs have prevalence > 75% in each group.  
-summary(apply(myallabun_rel[,selectHQMAG],1,sum))
-grouplist=as.character(unique(myalldata$group))
-for (i in 1:length(grouplist))
-{
-  tmpabun=myallabun_rel_36m[which(myalldata$group==grouplist[i]),selectHQMAG]
-  print(dim(tmpabun))
-  tmpout=paste(grouplist[i],".txt",sep = "")
-  print(range(tmpabun))
-  write.table(t(tmpabun),tmpout,quote = F,sep = "\t")
-}
 ```
 ### 8.4 run Fastspar, https://github.com/scwatts/fastspar. 
 
