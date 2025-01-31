@@ -83,7 +83,7 @@ myallhqreads (number of high quality reads of each sample)
 myallabun_rel=myallabun
 for(i in 1:nrow(myallabun_rel))
 {
-  myallabun_rel[i,]= myallabun_rel[i,]/myallhqreadsQin2014[i]
+  myallabun_rel[i,]= myallabun_rel[i,]/myallhqreads[i]
 }
 myallabun_rel[myallabun_rel <0.00001]=0
 myallabun_rel_36m=round(myallabun_rel*36000000)
