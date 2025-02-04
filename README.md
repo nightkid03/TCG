@@ -263,7 +263,7 @@ mynamicmods=cutreeDynamic(dendro = hc,distM=tmpdist)
 table(mynamicmods)
 ```
 -------------
-## 8.	RandomForest, general example
+## 9.	RandomForest, general example
 ```
 selectgroup=c("g1","g2")
 ind=which(myalldata$group%in%selectgroup)
