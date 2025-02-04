@@ -263,6 +263,21 @@ mynamicmods=cutreeDynamic(dendro = hc,distM=tmpdist)
 table(mynamicmods)
 ```
 -------------
+## 8.	RandomForest, general example
+```
+selectgroup=c("g1","g2")
+ind=which(myalldata$group%in%selectgroup)
+mydata=myalldata[ind,]
+mydata$group=factor(as.character(mydata$group))
+myabun_TCGgenome=myallabun[ind,TCG_HQMAGs]
+tmptraindata=mydata
+tmptrainabun=myabun_TCGgenome
+train.control=trainControl(method="LOOCV", savePredictions=TRUE,classProbs = TRUE)
+set.seed(315)
+registerDoMC(2) # parallel 
+model=train(x=tmptrainabun_rel,y=tmptraindata$Group,method = "rf",trControl = train.control)
+```
+-------------
 ### Ciation
 #_The gut microbiota is crucial for human health, functioning as a complex adaptive system akin to a vital organ. To identify core health-relevant gut microbes, we followed the systems biology tenet that stable relationships signify core components. By analyzing metagenomic datasets from a high-fiber dietary intervention in type 2 diabetes and 26 case-control studies across 15 diseases, we identified a set of stably correlated genome pairs within co-abundance networks perturbed by dietary interventions and diseases. These genomes formed a “two competing guilds” (TCGs) model, with one guild specialized in fiber fermentation and butyrate production and the other characterized by virulence and antibiotic resistance. Our random forest models successfully distinguished cases from controls across multiple diseases and predicted immunotherapy outcomes through the use of these genomes. Our guild-based approach, which is genome specific, database independent, and interaction focused, identifies a core microbiome signature that serves as a holistic health indicator and a potential common target for health enhancement._#
 
